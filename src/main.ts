@@ -1,9 +1,3 @@
-import App from './App.svelte';
+import Select from './Select.svelte';
 
-const app = new App({
-	target: document.body,
-	props: {
-	}
-});
-
-export default app;
+export default select;

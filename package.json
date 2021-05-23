@@ -1,7 +1,8 @@
 {
-  "name": "svelte-app",
+  "name": "select.myst",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
+  "svelte": "src/Select.svelte",
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
