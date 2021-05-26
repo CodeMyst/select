@@ -1,6 +1,6 @@
 {
   "name": "select.myst",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "svelte": "dist/index.js",
   "main": "dist/index.umd.js",
   "module": "dist/index.mjs",
