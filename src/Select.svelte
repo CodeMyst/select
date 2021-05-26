@@ -1,6 +1,7 @@
 <script lang="ts">
     import { tick } from "svelte";
 
+    export let id: string;
     export let label: String;
     export let options: [String, String][];
 
@@ -17,7 +18,7 @@
     let searchElement: HTMLInputElement;
     let dropdownElement: HTMLElement;
 
-    let selectedValue: [String, String] = options[0];
+    export let selectedValue: [String, String] = options[0];
     let selectedElement: HTMLElement;
 
     // set to true when an option is pressed
@@ -162,9 +163,14 @@
         padding: 0;
     }
 
+    .container {
+        display: flex;
+    }
+
     label {
         display: inline-block;
         margin-right: 0.5em;
+        align-self: center;
     }
 
     .select {
@@ -253,75 +259,79 @@
 
 </style>
 
-<label id="{label}-label"
-       for="{label}-select"
-       class="select-label">
-    {label}:
-</label>
+<div id={id} class="container">
 
-<div id="{label}-select"
-     class="select"
-     aria-labelledby="{label}-label"
-     bind:this={selectElement}
-     class:open>
+    <label id="{id}-label"
+           for="{id}-select"
+           class="select-label">
+        {label}
+    </label>
 
-    <span class="value"
-          tabindex="0"
-          aria-label="{selectedValue[1]}, listbox {tupleIndexOf(options, selectedValue)} of {options.length}"
-          aria-live="polite"
-          role="combobox"
-          aria-labelledby="{label}-label"
-          aria-haspopup="listbox"
-          aria-expanded={open}
-          on:mousedown={valueClickHandler}
-          on:focus={valueFocusHandler}>
-        {selectedValue[1]}
-    </span>
+    <div id="{id}-select"
+         class="select"
+         aria-labelledby="{id}-label"
+         bind:this={selectElement}
+         class:open>
 
-    <div class="dropdown"
-         role="listbox"
-         bind:this={dropdownElement}>
+        <span class="value"
+              tabindex="0"
+              aria-label="{selectedValue[1]}, listbox {tupleIndexOf(options, selectedValue)} of {options.length}"
+              aria-live="polite"
+              role="combobox"
+              aria-labelledby="{id}-label"
+              aria-haspopup="listbox"
+              aria-expanded={open}
+              on:mousedown={valueClickHandler}
+              on:focus={valueFocusHandler}>
+            {selectedValue[1]}
+        </span>
 
-        <input type="text"
-               autocomplete="off"
-               placeholder="Filter..."
-               bind:this={searchElement}
-               bind:value={search}
-               on:input={filterOptions}
-               on:keydown={keyDownHandler}
-               on:blur={searchBlurHandler}>
+        <div class="dropdown"
+             role="listbox"
+             bind:this={dropdownElement}>
 
-        {#if !found}
-            <p class="not-found">No items found</p>
-        {/if}
+            <input type="text"
+                   autocomplete="off"
+                   placeholder="Filter..."
+                   bind:this={searchElement}
+                   bind:value={search}
+                   on:input={filterOptions}
+                   on:keydown={keyDownHandler}
+                   on:blur={searchBlurHandler}>
 
-        {#each filteredOptions as [key, value]}
-
-            {#if tupleEquals(selectedValue, [key, value])}
-
-                <div class="option selected"
-                     aria-selected="true"
-                     role="option"
-                     on:mousedown={() => optionMouseDownHandler([key, value])}
-                     on:mouseup={optionMouseUpHandler}
-                     bind:this={selectedElement}>
-                    {value}
-                </div>
-
-            {:else}
-
-                <div class="option"
-                     aria-selected="false"
-                     role="option"
-                     on:mousedown={() => optionMouseDownHandler([key, value])}
-                     on:mouseup={optionMouseUpHandler}>
-                    {value}
-                </div>
-
+            {#if !found}
+                <p class="not-found">No items found</p>
             {/if}
 
+            {#each filteredOptions as [key, value]}
 
-        {/each}
+                {#if tupleEquals(selectedValue, [key, value])}
+
+                    <div class="option selected"
+                         aria-selected="true"
+                         role="option"
+                         on:mousedown={() => optionMouseDownHandler([key, value])}
+                         on:mouseup={optionMouseUpHandler}
+                         bind:this={selectedElement}>
+                        {value}
+                    </div>
+
+                {:else}
+
+                    <div class="option"
+                         aria-selected="false"
+                         role="option"
+                         on:mousedown={() => optionMouseDownHandler([key, value])}
+                         on:mouseup={optionMouseUpHandler}>
+                        {value}
+                    </div>
+
+                {/if}
+
+
+            {/each}
+
+        </div>
 
     </div>
 
