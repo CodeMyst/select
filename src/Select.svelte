@@ -121,14 +121,7 @@
     };
 
     const scrollSelectedIntoView = () => {
-        selectedElement.scrollIntoView();
-
-        // scroll more/less because of the search bar
-        if (selectedElement.offsetTop > dropdownElement.scrollTop) {
-            dropdownElement.scrollTop += searchElement.getBoundingClientRect().height*2;
-        } else {
-            dropdownElement.scrollTop -= searchElement.getBoundingClientRect().height*2;
-        }
+        dropdownElement.scrollTop = selectedElement.offsetTop - dropdownElement.offsetTop;
     };
 
     const optionMouseDownHandler = (v: [String, String]) => {
